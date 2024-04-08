@@ -6,14 +6,15 @@
         "password" : "",
         "database" : "node-mysql-signup-verification-api"
     },
-    "secret": "RSmpo2AB20u0qYdfX1En5w==",
+    "secret": "qwerty123",
     "emailFrom": "info@node-mysql-signup-verification-api.com",
     "smtpOptions" : {
-        "host": "smtp.ethereal.email",
-        "port": 587,
-        "auth": {
-            "user": "cora.kling36@ethereal.email",
-            "pass": "K9G44zqHM5As2x2dD3"
+            "host": "smtp.ethereal.email",
+            "port": 587,         
+            "auth": {
+                "user": "orland.witting@ethereal.email",
+                "pass": "wJPyhfNJPUyAP7A53u"
+            }
         }
-    }
+        
 }
