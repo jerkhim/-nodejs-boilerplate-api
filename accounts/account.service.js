@@ -1,4 +1,4 @@
-const config = require('config.json');
+﻿const config = require('config.json');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const crypto = require("crypto");
@@ -90,7 +90,7 @@ async function register(params, origin) {
     // first registered account is an admin
     const isFirstAccount = (await db.Account.count()) === 0;
     account.role = isFirstAccount ? Role.Admin : Role.User;
-    account.verificationToken = randomTokenString('hex');
+    account.verificationToken = randomTokenString();
 
     // hash password
     account.passwordHash = await hash(params.password);
