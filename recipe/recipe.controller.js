@@ -32,14 +32,16 @@ function getById(req, res, next) {
 
 function createSchema(req, res, next) {
     const schema = Joi.object({
-        title: Joi.string().required(),
+        id: Joi.string().uuid(), // Assuming the ID is a UUID, adjust as needed
+        name: Joi.string().required(),
+        descriptions: Joi.string().required(),
         ingredients: Joi.string().required(),
-        description: Joi.string().required(),
-        amount: Joi.string().min(10).required(),
-        image: Joi.string().uri().required()
+        instructions: Joi.string().required(),
+        imageUrl: Joi.string().uri().required()
     });
     validateRequest(req, next, schema);
 }
+
 
 function create(req, res, next) {
     // Only admins can create recipes
@@ -54,16 +56,18 @@ function create(req, res, next) {
 
 function updateSchema(req, res, next) {
     const schemaRules = {
-        title: Joi.string().empty(''),
+        id: Joi.string().uuid(), // Assuming the ID is a UUID, adjust as needed
+        name: Joi.string().empty(''),
+        descriptions: Joi.string().empty(''),
         ingredients: Joi.string().empty(''),
-        description: Joi.string().empty(''),
-        amount: Joi.string().empty(''),
-        image: Joi.string().uri().empty('')
+        instructions: Joi.string().empty(''),
+        imageUrl: Joi.string().uri().empty('')
     };
 
     const schema = Joi.object(schemaRules);
     validateRequest(req, next, schema);
 }
+
 
 function update(req, res, next) {
     // Only admins can update recipes

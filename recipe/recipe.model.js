@@ -4,12 +4,16 @@ module.exports = model;
 
 function model(sequelize) {
     const attributes = {
+        id: {
+            type: DataTypes.UUID,
+            primaryKey: true,
+            defaultValue: DataTypes.UUIDV4 // Assuming you want to generate UUIDs for IDs
+        },
         name: { type: DataTypes.STRING, allowNull: false },
+        descriptions: { type: DataTypes.STRING, allowNull: false },
         ingredients: { type: DataTypes.STRING, allowNull: false },
-        description: { type: DataTypes.STRING, allowNull: false },
-        amount: { type: DataTypes.STRING, allowNull: false },
-        images: { type: DataTypes.STRING, allowNull: false },
- 
+        instructions: { type: DataTypes.STRING, allowNull: false },
+        imageUrl: { type: DataTypes.STRING, allowNull: false },
     };
 
     const options = {
@@ -26,4 +30,5 @@ function model(sequelize) {
     };
 
     return sequelize.define('Recipe', attributes, options);
+   
 }
