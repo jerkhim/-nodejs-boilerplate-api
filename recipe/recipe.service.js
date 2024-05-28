@@ -1,10 +1,4 @@
-const config = require('config.json');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const crypto = require("crypto");
-const { Op } = require('sequelize');
 const db = require('_helpers/db');
-const Role = require('_helpers/role');
 
 module.exports = {
     getAll,
@@ -15,27 +9,50 @@ module.exports = {
 };
 
 async function getAll() {
-    return await db.Recipe.findAll();
+    const recipes = await db.Recipe.findAll();
+    return recipes.map(x => basicDetails(x));
 }
 
 async function getById(id) {
-    return await db.Recipe.findByPk(id);
+    const recipe = await getRecipe(id);
+    return basicDetails(recipe);
 }
 
 async function create(params) {
-    return await db.Recipe.create(params);
+    const recipe = new db.Recipe(params);
+    recipe.created = Date.now()
+
+    // save account
+    await recipe.save();
+
+    return basicDetails(recipe);
 }
 
 async function update(id, params) {
-    const recipe = await getById(id);
-    if (!recipe) throw 'Recipe not found';
+    const recipe = await getRecipe(id);
+
+    // copy params to account and save
     Object.assign(recipe, params);
+    recipe.updated = Date.now();
     await recipe.save();
-    return recipe;
+
+    return basicDetails(recipe);
 }
 
 async function _delete(id) {
-    const recipe = await getById(id);
-    if (!recipe) throw 'Recipe not found';
+    const recipe = await getRecipe(id);
     await recipe.destroy();
+}
+
+// helper functions
+
+async function getRecipe(id) {
+    const recipe = await db.Recipe.findByPk(id);
+    if (!recipe) throw 'Recipe not found';
+    return recipe;
+}
+
+function basicDetails(recipe) {
+    const { id, name, description, ingredients, instructions, imageUrl, created, updated } = recipe;
+    return { id, name, description, ingredients, instructions, imageUrl, created, updated };
 }

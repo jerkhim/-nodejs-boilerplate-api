@@ -2,9 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const validateRequest = require('_middleware/validate-request');
+const authorize = require('_middleware/authorize');
+const Role = require('_helpers/role');
 const recipeService = require('./recipe.service');
-
-
+const recipeController = require('./recipe.controller');
+app.use('/recipes', recipeRouter);
 // routes
 router.get('/', getAll);
 router.get('/:id', getById);
@@ -39,7 +41,7 @@ function createSchema(req, res, next) {
 
 function create(req, res, next) {
     recipeService.create(req.body)
-        .then(recipe => res.json(recipe))
+        .then(recipes => res.json(recipes))
         .catch(next);
 }
 
